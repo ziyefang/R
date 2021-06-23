@@ -1,5 +1,7 @@
 library(readxl)
 ssa1 = read.csv("ssa1.csv")
+
+# Check the relationship
 plot(ssa1$x,ssa1$y)
 h = lm(y~x,data=ssa1)
 
@@ -46,6 +48,7 @@ lines(h$x,h$y)
 
 mse=(sum((ssa1$y-h$y)^2))/(length(ssa1$y)-1)
 ############################################################################333
+# analysis
 library(foreign)
 
 meningitis=read.spss("meningitis.sav",to.data.frame=TRUE)
