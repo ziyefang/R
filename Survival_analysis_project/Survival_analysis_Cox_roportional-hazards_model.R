@@ -8,25 +8,22 @@ h = lm(y~x,data=ssa1)
 summary(h)
 
 mse=sum((ssa1$y-h$fitted.values)^2)
-
 mse
 plot(ssa1$x,ssa1$y)
 lines(ssa1$x,h$fitted.values,col=2,lwd=2,lty=2)
 lny=log(1+abs(min(ssa1$y))+ssa1$y)
 
 h =  lm(lny~ssa1$x)
-
 summary(h)
 
 mse=sum((lny-h$fitted.values)^2)
-
 mse
 
 plot(ssa1$x,lny)
 
 lines(ssa1$x,h$fitted.values)
+#avas
 library(acepack)
-
 a <- avas(ssa1$x,ssa1$y)
 
 par(mfrow=c(2,2))
@@ -48,7 +45,7 @@ lines(h$x,h$y)
 
 mse=(sum((ssa1$y-h$y)^2))/(length(ssa1$y)-1)
 ############################################################################333
-# analysis
+# glm and gam analysis
 library(foreign)
 
 meningitis=read.spss("meningitis.sav",to.data.frame=TRUE)
@@ -90,6 +87,7 @@ hxtra = glm(formula = event ~ COMA+RASH+I((TROMB-200)*(TROMB<200))
 
 summary(hxtra)
 ##########################################
+# Survival analysis
 library(foreign)
 
 d=read.spss("prostatecancer.sav",to.data.frame=TRUE)
@@ -159,7 +157,7 @@ plot(d$vaf0[is.na(d$vaf0)==FALSE],predict(univar1x, type="terms",
 
 univar1b=coxph(Surv(dfs,dfsstat)~transformed_vaf0,data=d)
 
-# it the model fits, the plot should show a straight line
+# The plot show a straight line, representing fitting
 
 plot(d$vaf0[is.na(d$vaf0)==FALSE],predict(univar1b))
 
