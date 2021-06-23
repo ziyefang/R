@@ -160,6 +160,6 @@ univar1b=coxph(Surv(dfs,dfsstat)~transformed_vaf0,data=d)
 
 plot(d$vaf0[is.na(d$vaf0)==FALSE],predict(univar1b))
 
-# but is the model any good?
+# check if the model is any good
 
 AIC(univar1b)
