@@ -37,7 +37,8 @@ m1=coxph(Surv(time_to_death,as.numeric(stat_pat)-1)~+age_at_tx+agedon+type_dia+
            duur_dia ,data=d,x=TRUE)
 summary(m1)
 plot(cox.zph(m1))
-#cox
+
+#cox regression model
 coxph(formula = Surv(time_to_death, as.numeric(stat_pat) - 1) ~
         pspline(age_at_tx) + pspline(agedon) + type_dia + pspline(duur_dia),
       data = d, x = TRUE)
@@ -70,6 +71,7 @@ p3b=lme(gfr~ns(years,df=2)+sex_pat+age_at_tx+bmi+sexdon+agedon+type_dia+duur_dia
 summary(p3b)
 library("JM")
 j1=jointModel(p3a,m1,timeVar="years")
+
 # calculate predicted values for every patient at every time-point
 # and put them into a data.frame
 predGFR=predict(p3a,level=1)
@@ -89,6 +91,7 @@ d2=survSplit(data=d, cut=c(0.25,0.50,1,2,5,10,20), episode = "tgroup",
              start="tstart", zero=0, end="time_to_death", event="event")
 
 summary(d2)
+
 #gfr
 d2$gfr[d2$tstart>=0 & d2$time_to_death <= 0.25]=d2$gfr1[d2$tstart>=0 &
                                                           d2$time_to_death <= 0.25]
@@ -136,6 +139,8 @@ d2$map[d2$tstart>=10 & d2$time_to_death <= 20 ]=d2$map7[d2$tstart>=10 &
                                                                 d2$time_to_death <= 20 ]
 
 d3 =subset(d2, (!is.na(d2$gfr) & !is.na(d2$screat) & !is.na(d2$map)))
+
+#time independent cox regression
 coxph(Surv(tstart,time_to_death,event)~sex_pat+type_dia+duur_dia+dat_dial+retrans+
       + screat:strata(tgroup) + gfr:strata(tgroup) + map:strata(tgroup), data=d2)
 
